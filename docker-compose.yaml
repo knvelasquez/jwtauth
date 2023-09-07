@@ -1,0 +1,20 @@
+version: "3.9"
+services:
+  jwt-auth-service:
+    container_name: jwt-auth-container
+    image: knvelasquez/jwtauth:v1.2
+    environment:
+      # Sets default value 8082 if SPRING_BOOT_PORT is not defined
+      - SPRING_BOOT_PORT=${SPRING_BOOT_PORT:-8082}
+    ports:
+      # Map default value 8082 if SPRING_BOOT_PORT is not defined
+      - ${SPRING_BOOT_PORT:-8082}:${SPRING_BOOT_PORT:-8082}
+
+    build:
+      context: ./
+      dockerfile: Dockerfile
+
+      #set custom port
+      #SPRING_BOOT_PORT=8181 docker-compose build
+      #SPRING_BOOT_PORT=8181 docker-compose push
+      #SPRING_BOOT_PORT=8181 docker-compose up

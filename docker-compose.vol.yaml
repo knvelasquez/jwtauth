@@ -1,0 +1,26 @@
+version: "3.9"
+services:
+  jwtauth:
+    container_name: jwtauth
+    image: knvelasquez/jwtauth:v1.2
+    environment:
+      # Sets default value 8082 if SPRING_BOOT_PORT is not defined
+      - SPRING_BOOT_PORT=${SPRING_BOOT_PORT:-8082}
+    ports:
+      # Map default value 8082 if SPRING_BOOT_PORT is not defined
+      - ${SPRING_BOOT_PORT:-8082}:${SPRING_BOOT_PORT:-8082}
+
+    working_dir: /jwtAuth
+    volumes:
+      - .:/jwtAuth
+    command: >
+         bash -c "
+            mvn clean spring-boot:run;
+            #tail -f /dev/null;
+          "
+
+    #compile using volume inside container locally
+    #docker compose -f docker-compose.vol.yaml up
+
+    #set custom port
+    #SPRING_BOOT_PORT=8181 docker compose -f docker-compose.vol.yaml up
