@@ -1,4 +1,4 @@
-package application;
+package com.jwtauth.lab.application;
 
 import org.springframework.stereotype.Service;
 
@@ -27,14 +27,14 @@ public class EncryptService {
         Cipher cipher = createCipherForEncryption();
         initCipher(cipher, derivedKey, iv);
         byte[] encryptedBytes = getEncryptedBytes(cipher, message);
-        byte[] combined = combineIvAndEncryptedBytes(iv, encryptedBytes);
+        byte[] combined = combineIvAndEncryptedBytes(iv, encryptedBytes,message);
         return Base64.getEncoder().encodeToString(combined);
     }
 
-    private byte[] combineIvAndEncryptedBytes(byte[] iv, byte[] encryptedBytes) {
+    private byte[] combineIvAndEncryptedBytes(byte[] iv, byte[] encryptedBytes, String message) {
         // Combine IV and encrypted data
         byte[] combined = new byte[IV_LENGTH + encryptedBytes.length];
-        System.arraycopy(iv, 0, combined, 0, IV_LENGTH);
+        System.arraycopy(iv, 0, combined, 0, message.getBytes().length/* IV_LENGTH*/);
         System.arraycopy(encryptedBytes, 0, combined, IV_LENGTH, encryptedBytes.length);
         return combined;
     }

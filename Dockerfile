@@ -8,6 +8,15 @@ ARG JAR_FILENAME ${APP_NAME}-${APP_VERSION}.jar #App file name
 #Set working directory
 WORKDIR /${APP_NAME}
 
+COPY /lib/FilterLibrary-1.0.0.jar /${APP_NAME}/lib/FilterLibrary-1.0.0.jar
+RUN mvn install:install-file -Dfile=/${APP_NAME}/lib/FilterLibrary-1.0.0.jar -DgroupId=com.lab -DartifactId=FilterLibrary -Dversion=1.0.0 -Dpackaging=jar
+
+COPY /lib/JwtLibrary-1.0.0.jar /${APP_NAME}/lib/JwtLibrary-1.0.0.jar
+RUN mvn install:install-file -Dfile=/${APP_NAME}/lib/JwtLibrary-1.0.0.jar -DgroupId=com.jwtlibrary -DartifactId=JwtLibrary -Dversion=1.0.0 -Dpackaging=jar
+
+COPY /lib/authority-1.0.0.jar /${APP_NAME}/lib/authority-1.0.0.jar
+RUN mvn install:install-file -Dfile=/${APP_NAME}/lib/authority-1.0.0.jar -DgroupId=com.lab -DartifactId=authority -Dversion=1.0.0 -Dpackaging=jar
+
 #Copy sources from to container
 COPY . /${APP_NAME}
 

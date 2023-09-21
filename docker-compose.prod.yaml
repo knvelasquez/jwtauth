@@ -2,7 +2,7 @@ version: "3.9"
 services:
   jwt-auth-service:
     container_name: jwt-auth-container
-    image: knvelasquez/jwtauth:v1.2
+    image: knvelasquez/jwtauth:v1.3
     environment:
       # Sets default value 8082 if SPRING_BOOT_PORT is not defined
       - SPRING_BOOT_PORT=${SPRING_BOOT_PORT:-8082}
