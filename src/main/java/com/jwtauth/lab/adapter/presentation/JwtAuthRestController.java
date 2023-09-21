@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
@@ -57,11 +58,15 @@ public class JwtAuthRestController {
         final String subject = "Subject Information";
         final String COMPANY = "SuperHero Fintech Company, S.A";
         final int idUser = jwtModel.getIdUser();
-        List<String> authorities = new ArrayList<>();
-        for (AuthorityDTO authorityDTO : AuthorityFactory.getAuthority().findAll(idUser)) {
-            authorities.add(authorityDTO.getAuthority().getDescription());
-        }
+        final List<String> authorities = mapToAuthorityStringList(AuthorityFactory.getAuthority().findAll(idUser));
         return jwtFactory.getEncoder().encode(issuer, subject, COMPANY, String.valueOf(idUser), authorities);
+    }
+
+    private List<String> mapToAuthorityStringList(List<AuthorityDTO> authorities) {
+        return authorities
+                .stream()
+                .map(authorityDto -> authorityDto.getAuthority().getDescription())
+                .collect(Collectors.toList());
     }
 
     private String getLastCharacters(String jwt) {
